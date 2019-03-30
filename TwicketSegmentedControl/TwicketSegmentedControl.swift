@@ -13,7 +13,7 @@ public protocol TwicketSegmentedControlDelegate: class {
 }
 
 open class TwicketSegmentedControl: UIControl {
-    open static let height: CGFloat = Constants.height + Constants.topBottomMargin * 2
+    public static let height: CGFloat = Constants.height + Constants.topBottomMargin * 2
 
     private struct Constants {
         static let height: CGFloat = 30
@@ -88,7 +88,7 @@ open class TwicketSegmentedControl: UIControl {
         }
     }
 
-    open var font: UIFont = UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.medium) {
+    open var font: UIFont {
         didSet {
             updateLabelsFont(with: font)
         }
@@ -120,11 +120,21 @@ open class TwicketSegmentedControl: UIControl {
     private lazy var sliderView: SliderView = SliderView()
 
     public override init(frame: CGRect) {
+        if #available(iOS 8.2, *) {
+            font = UIFont.systemFont(ofSize: 15, weight: .medium)
+        } else {
+            font = UIFont.boldSystemFont(ofSize: 15)
+        }
         super.init(frame: frame)
         setup()
     }
 
     public required init?(coder aDecoder: NSCoder) {
+        if #available(iOS 8.2, *) {
+            font = UIFont.systemFont(ofSize: 15, weight: .medium)
+        } else {
+            font = UIFont.boldSystemFont(ofSize: 15)
+        }
         super.init(coder: aDecoder)
         setup()
     }
